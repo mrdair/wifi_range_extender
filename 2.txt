@@ -1,0 +1,18 @@
+1.
+
+sudo apt-get install python3-pip
+sudo pip3 install flask 
+sudo apt install vsftpd 
+
+2. 
+connect via ftp 
+copy flask folder to /home/pi/ 
+
+3. 
+sudo crontab -e 
+choose option 1 
+add this line at the end 
+	@reboot python3 /home/pi/flask/app.py 
+
+4. sudo reboot 
+

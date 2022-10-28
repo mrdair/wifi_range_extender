@@ -1,0 +1,83 @@
+1. install the os (connect with ethernet) (#enable ssh and wifi config and set password to 963210000mnm) 
+	it's important that verifing the files 
+
+1.1 	connect via wifi (don't put tplink dongle in) 
+
+2. 	sudo apt-get update (twice) 
+	sudo apt install vsftpd
+
+
+3. 	sudo rfkill unblock wifi; sudo rfkill unblock all 
+	sudo rfkill list 
+	sudo reboot 
+	(check the result) 
+
+3.1 
+	sudo nano /etc/systemd/network/02-intel.link (configure this files without any space!!) 
+	[Match]
+	MACAddress=e4:5f:01:00:db:61 (check it every time) 
+ 
+	[Link]
+	Name=intel 
+	
+	#### sudo update-initramfs -u (don't do this line) 
+	sudo reboot 
+	(check the ifconfig) 
+
+3.2 
+	(connect tplink
+		and plug out and plug in the device)   
+	(connect with one wifi ( maybe it be tplink or intel ) ) 
+	(check the ifconfig) 
+	sudo reboot 
+
+3.3 . configure the file interfaces (sudo nano /etc/network/interfaces)
+	auto tplink
+	iface tplink inet dhcp
+                wpa-ssid Here
+                wpa-psk  raisi8090 
+
+4. 	 
+	sudo nano /etc/systemd/network/01-tplink.link (configure this files without any space!!) 
+	[Match]
+	MACAddress=50:3e:aa:01:72:30
+ 
+	[Link]
+	Name=tplink 
+
+	sudo reboot 
+	
+	(after starting check the ifconfig -a) 
+
+5. sudo apt-get install network-manager (just press enter while installing (not Y or y) 
+	###### (don't do this line) sudo apt-get install links (just press enter while installing (not Y or y) 
+	sudo reboot 
+	(after starting check the ifconfig -a)  
+
+5.1 	
+	add these lines to the path (/etc/NetworkManager/NetworkManager.conf) 
+	[device]
+	wifi.scan-rand-mac-address=no 
+
+	sudo reboot 
+
+	(after starting check the ifconfig -a)  
+6. 	
+	
+	sudo su -  
+
+	(copy all of this line together)   
+	IFNAME="intel" 
+	CON_NAME="intel-extender"
+	nmcli con add type wifi ifname $IFNAME con-name $CON_NAME autoconnect yes ssid $CON_NAME
+	nmcli con modify $CON_NAME 802-11-wireless.mode ap 802-11-wireless.band bg ipv4.method shared
+	nmcli con modify $CON_NAME wifi-sec.key-mgmt wpa-psk
+	nmcli con modify $CON_NAME wifi-sec.psk "12345678"
+	nmcli con up $CON_NAME
+
+(the path of configure file /etc/NetworkManager/system-connections/ ) 
+
+7. 
+	sudo reboot 
+	(check the ifconfig -a and hotspot(with a device like laptop)) 
+

@@ -1,0 +1,5 @@
+source-directory /etc/network/interfaces.d
+auto tplink
+iface tplink inet dhcp
+        wpa-ssid Here
+        wpa-psk  raisi8090

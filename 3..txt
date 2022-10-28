@@ -1,0 +1,16 @@
+1. 
+connect via ftp 
+
+2.
+copy the contents of the pi folder to /home/pi/
+
+3. 
+copy startup.py to /home/pi/
+
+5.
+sudo crontab -e 
+choose option 1 
+add this line add the bottom 
+	@reboot sudo python3 /home/pi/startup.py
+
+6.sudo reboot 
